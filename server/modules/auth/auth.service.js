@@ -6,7 +6,7 @@ import {UserModel} from "../user/user.model.js";
 export const registerController = async (req , res , next)=>{
     try{
         const {full_name,email,password} = req.body;
-        if(!full_name || !password || !email)throw createHttpError(400, "Username, email and password is required");
+        if(!full_name || !password || !email)throw createHttpError(400, "full name, email and password is required.");
         const exists = await UserModel.findOne({where : {email:email}})
         if(exists) throw createHttpError(400, "user with this email already exists");
         const hash = hashPassword(password)
