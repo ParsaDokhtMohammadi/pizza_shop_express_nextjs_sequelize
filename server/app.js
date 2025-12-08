@@ -1,6 +1,7 @@
 import express from "express";
 import cluster from "cluster";
 import os from "os";
+import {modelsInit} from "./config/models.init.js";
 
 const app = express();
 
@@ -22,7 +23,12 @@ cluster.on("exit", (worker)=>{
     cluster.fork()
 })
 }else{
-    app.listen(4000,"0.0.0.0",()=>{
-        console.log("server started http://localhost:4000",process.pid)
+    app.listen(4000,"0.0.0.0",async ()=>{
+        try{
+            await modelsInit()
+            console.log("server started http://localhost:4000",process.pid)
+        }catch (err){
+            console.log(err);
+        }
     })
 }
