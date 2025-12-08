@@ -3,6 +3,7 @@ import cluster from "cluster";
 import os from "os";
 import {modelsInit} from "./config/models.init.js";
 import AuthRouter from "./modules/auth/auth.routes.js";
+import {errorHandle, notFound} from "./common/utils/errorHandler.utils.js";
 
 const app = express();
 
@@ -24,7 +25,8 @@ app.use("/api/auth",AuthRouter);
 
 
 
-
+app.use(notFound);
+app.use(errorHandle);
 //
 // if(cluster.isMaster){
 //     for (let index=0; index<os.cpus().length;index++){
