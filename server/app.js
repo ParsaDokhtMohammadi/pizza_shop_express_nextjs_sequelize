@@ -1,4 +1,7 @@
 import express from "express";
+import cluster from "cluster";
+import os from "os";
+
 const app = express();
 
 app.use(express.json());
@@ -8,6 +11,18 @@ app.get("/",(req, res)=>{
     res.send("Hello World! lets test docker");
 })
 
-app.listen(4000,'0.0.0.0',(req,res)=>{
-    console.log("server started http://localhost:4000")
+
+
+if(cluster.isMaster){
+    for (let index=0; index<os.cpus().length;index++){
+        cluster.fork();
+    }
+cluster.on("exit", (worker)=>{
+    console.log(`worker ${worker.process.pid} died restarting`);
+    cluster.fork()
 })
+}else{
+    app.listen(4000,"0.0.0.0",()=>{
+        console.log("server started http://localhost:4000",process.pid)
+    })
+}
