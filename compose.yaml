@@ -1,0 +1,53 @@
+services:
+  web:
+    build: ./client
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://backend:4000
+    develop:
+      watch:
+        - path: ./client/package.json
+          action: rebuild
+        - path: ./client/pnpm-lock.yaml
+          action: rebuild
+        - path: ./client
+          target: /app
+          action: sync
+
+  backend:
+    build: ./server
+    depends_on:
+      - db
+    ports:
+      - "4000:4000"
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DB: ${DB_DB}
+    develop:
+      watch:
+        - path: ./server/package.json
+          action: rebuild
+        - path: ./server/pnpm-lock.yaml
+          action: rebuild
+        - path: ./server
+          target: /app
+          action: sync
+
+  db:
+    image: mysql:8
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DB}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
