@@ -8,6 +8,7 @@ const sequelize = new Sequelize({
     port:3306,
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
+    database : "pizza",
     logging: false
 })
 export default sequelize;
