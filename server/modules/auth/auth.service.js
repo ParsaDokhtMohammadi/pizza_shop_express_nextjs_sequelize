@@ -1,4 +1,4 @@
-import {hashPassword, verifyPassword} from "../../common/utils/auth.utils.js";
+import {generateToken, hashPassword, verifyPassword} from "../../common/utils/auth.utils.js";
 import {nanoid} from "nanoid";
 import createHttpError from "http-errors";
 import {UserModel} from "../user/user.model.js";
@@ -13,6 +13,13 @@ export const registerController = async (req , res , next)=>{
         await UserModel.create({id:nanoid(6),email:email,password:hash,full_name:full_name})
         res.status(200).json({ message : "user created successfully." });
     }catch (err){
+        next(err)
+    }
+}
+export const loginController = async (req , res , next)=>{
+    try{
+           
+    }catch(err){
         next(err)
     }
 }

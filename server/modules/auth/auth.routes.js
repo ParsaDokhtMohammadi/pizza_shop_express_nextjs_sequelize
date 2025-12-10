@@ -7,5 +7,4 @@ const router = Router();
 router.post("/register",validate(registerSchema),registerController)
 
 
-
 export default router
