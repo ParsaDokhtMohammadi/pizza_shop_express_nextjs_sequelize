@@ -4,10 +4,19 @@ export const notFound=((req , res , next)=>{
     })
 })
 
-export const errorHandle=((err, req , res , next)=>{
-    const status = err?.status ?? 500
-    const message = err?.message ?? "internal server error"
-    return res.status(status).json({
-        message : message
-    })
-})
+export const errorHandle = (err, req, res, next) => {
+  if (err?.details) {
+    const firstError = Object.values(err.details)
+      .flat()
+      .map(e => e.message)[0];
+
+    return res.status(err.statusCode ?? 400).json({
+      message: firstError,
+    });
+  }
+
+  const status = err?.status ?? 500;
+  const message = err?.message ?? "internal server error";
+
+  return res.status(status).json({ message });
+};
