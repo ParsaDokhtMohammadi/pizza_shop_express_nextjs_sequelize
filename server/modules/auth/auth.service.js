@@ -19,6 +19,8 @@ export const registerController = async (req , res , next)=>{
 }
 export const loginController = async (req , res , next)=>{
     try{
+        const alreadyLoggedIn = req.signedCookies?.planetPizza;
+        if(alreadyLoggedIn)throw createHttpError(400, "you are already logged in.");
         const {email,password} = req.body;
         if(!password || !email)throw createHttpError(400, "email and password are required.");
         const user = await UserModel.findOne({where : {email:email}})
