@@ -20,7 +20,7 @@ export const registerSchema = {
       .messages({
         "string.empty": "Email is required",
         "string.email": "Invalid email",
-        "any.required": "Full name is required",
+        "any.required": "Email is required",
       }),
 
     password: Joi.string()
@@ -30,10 +30,10 @@ export const registerSchema = {
       .required()
       .messages({
         "string.empty": "Password is required",
-        "string.min": "Password must be at least 8 chars",
-        "string.max": "Password must be at most 32 chars",
+        "string.min": "Password must be between 8 and 32 charecters",
+        "string.max": "Password must be between 8 and 32 charecters",
         "string.pattern.base": "Password must contain at least one letter and one number",
-        "any.required": "Full name is required",
+        "any.required": "Password is required",
       }),
   }),
 };
