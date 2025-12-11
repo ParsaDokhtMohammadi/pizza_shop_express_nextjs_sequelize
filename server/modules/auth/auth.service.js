@@ -38,3 +38,12 @@ export const loginController = async (req , res , next)=>{
         next(err)
     }
 }
+export const logoutController = async (req , res , next)=>{
+    try{
+        res.clearCookie("planetPizza")
+    }
+    catch(err){
+            next(err)
+    }
+    res.status(200).json({message : "logout successful."})
+}
