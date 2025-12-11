@@ -9,10 +9,10 @@ const options = {
             description: "API documentation for Planet Pizza application"
         },
         servers:[
-            {url: "http://localhost:3000", description: "Local server"}
+            {url: "http://localhost:4000", description: "Local server"}
         ]
     },
-    apis : ["server/modules/.**/*.js"]
+    apis : ["./modules/**/*.js"]
 }
 
 export const specs = swaggerJSDoc(options)
