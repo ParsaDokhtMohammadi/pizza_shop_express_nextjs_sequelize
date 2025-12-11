@@ -117,4 +117,10 @@ describe("auth tests register,login,logout", () => {
         expect(response.type).toBe('application/json')
         expect(response.headers['set-cookie']).not.toBeDefined() 
     })
+    test("should logout user",async()=>{
+        const response = await agent.get("/api/auth/logout")
+        expect(response.status).toBe(200)
+        expect(response.type).toBe('application/json')
+        expect(response.body.message).toBe("logout successful.")
+    })
 })
