@@ -8,7 +8,7 @@ import sequelize from "../../config/sequelize.config.js";
 describe("auth tests register,login,logout", () => {
     let agent
     beforeAll(async () => {
-        await modelsInit()
+        await modelsInit("test")
     })
     beforeEach(() => {
         agent = request.agent(app)
