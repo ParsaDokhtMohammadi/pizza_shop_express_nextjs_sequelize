@@ -5,7 +5,7 @@ import sequelize from "./sequelize.config.js";
 
 export async function modelsInit(){
     await sequelize.authenticate()
-    await sequelize.sync({alter:true});
+    await sequelize.sync();
 
     UserModel.hasMany(cartModel,{foreignKey:"user_id"})
     cartModel.belongsTo(UserModel,{foreignKey:"user_id"})
