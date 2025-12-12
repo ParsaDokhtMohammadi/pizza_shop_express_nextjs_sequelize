@@ -2,7 +2,7 @@ import sequelize from "./config/sequelize.config.js";
 import { cartModel } from "./modules/Cart/Cart.model.js";
 import { itemModel } from "./modules/item/item.model.js";
 import {UserModel} from "./modules/user/user.model.js"
-async function seed() {
+export async function seed() {
     try {
         console.log("🔄 Syncing database...");
         await sequelize.sync({ force: true });

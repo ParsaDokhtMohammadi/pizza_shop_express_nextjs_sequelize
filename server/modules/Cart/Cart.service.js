@@ -19,3 +19,19 @@ export const addToCartController = async(req , res,next) =>{
         next(err)
     }
 }
+export const deleteFromCartController = async(req , res , next)=>{
+    try{
+        const {item_id} = req.body
+        if(!item_id) throw createHttpError(400,"فیلد های مورد نیاز ارسال نشده اند")
+        const token = req.signedCookies.planetPizza
+        const verified = verifyToken(token)
+        if(!verified)throw createHttpError(401,"منقضی شده لطفا دوباره وارد شوید")
+        const user_id = verified.id
+        const deleted = await cartModel.destroy({where:{user_id,item_id}})
+        if(!deleted) throw createHttpError(404,"آیتم در سبد خرید یافت نشد")
+        res.status(200).json({message:"آیتم از سبد خرید حذف شد"})
+        
+    }catch(err){
+        next(err)
+    }
+}
