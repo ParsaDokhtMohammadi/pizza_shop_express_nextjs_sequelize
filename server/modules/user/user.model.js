@@ -1,4 +1,3 @@
-import sequelizeConfig from "../../config/sequelize.config.js";
 import {DataTypes} from "sequelize";
 import sequelize from "../../config/sequelize.config.js";
 
