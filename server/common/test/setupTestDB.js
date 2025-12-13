@@ -44,10 +44,10 @@ export async function setupTestDB() {
 
 
     await itemModel.bulkCreate([
-      { id: "i1", name: "Margherita Pizza", category: "Pizza", description: "Classic pizza with tomato sauce and mozzarella.", image_url: "/images/margherita.jpg" },
-      { id: "i2", name: "Pepperoni Pizza", category: "Pizza", description: "Pepperoni, cheese, and tomato sauce.", image_url: "/images/pepperoni.jpg" },
-      { id: "i3", name: "Garlic Bread", category: "side", description: "Toasted garlic bread with herbs.", image_url: "/images/garlicbread.jpg" },
-      { id: "i4", name: "Coca Cola", category: "drink", description: "Cold refreshing cola drink.", image_url: "/images/coke.jpg" }
+      { id: "i1", name: "Margherita Pizza", category: "Pizza", description: "Classic pizza with tomato sauce and mozzarella.",price:300000, image_url: "/images/margherita.jpg" },
+      { id: "i2", name: "Pepperoni Pizza", category: "Pizza", description: "Pepperoni, cheese, and tomato sauce.",price:380000, image_url: "/images/pepperoni.jpg" },
+      { id: "i3", name: "Garlic Bread", category: "side", description: "Toasted garlic bread with herbs.",price:20000, image_url: "/images/garlicbread.jpg" },
+      { id: "i4", name: "Coca Cola", category: "drink", description: "Cold refreshing cola drink.",price:50000, image_url: "/images/coke.jpg" }
     ]);
 
 

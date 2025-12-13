@@ -36,6 +36,7 @@ export async function seed() {
                 name: "Margherita Pizza",
                 category: "Pizza",
                 description: "Classic pizza with tomato sauce and mozzarella.",
+                price:300000,
                 image_url: "/images/margherita.jpg"
             },
             {
@@ -43,6 +44,7 @@ export async function seed() {
                 name: "Pepperoni Pizza",
                 category: "Pizza",
                 description: "Pepperoni, cheese, and tomato sauce.",
+                price:380000,
                 image_url: "/images/pepperoni.jpg"
             },
             {
@@ -50,6 +52,7 @@ export async function seed() {
                 name: "Garlic Bread",
                 category: "side",
                 description: "Toasted garlic bread with herbs.",
+                price:200000,
                 image_url: "/images/garlicbread.jpg"
             },
             {
@@ -57,6 +60,7 @@ export async function seed() {
                 name: "Coca Cola",
                 category: "drink",
                 description: "Cold refreshing cola drink.",
+                price:50000,
                 image_url: "/images/coke.jpg"
             }
         ]);

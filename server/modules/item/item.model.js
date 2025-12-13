@@ -6,6 +6,7 @@ export const itemModel = sequelize.define("Item",{
     name:{type:DataTypes.STRING,allowNull:false},
     category:{type:DataTypes.ENUM("Pizza","side","drink"),allowNull:false},
     description:{type:DataTypes.TEXT , allowNull:false},
+    price:{type:DataTypes.INTEGER,allowNull:false, defaultValue:1000},
     image_url:{type:DataTypes.STRING}
 },
 {
