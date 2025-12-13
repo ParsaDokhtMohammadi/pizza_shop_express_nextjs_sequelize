@@ -3,7 +3,7 @@ import { itemModel } from "../modules/item/item.model.js";
 import { UserModel } from "../modules/user/user.model.js";
 import sequelize from "./sequelize.config.js";
 
-export async function modelsInit(mode="dev"){
+export async function modelsInit(){
     await sequelize.authenticate()
     
     UserModel.hasMany(cartModel,{foreignKey:"user_id"})
@@ -12,7 +12,7 @@ export async function modelsInit(mode="dev"){
     itemModel.hasMany(cartModel,{foreignKey:"item_id"})
     cartModel.belongsTo(itemModel,{foreignKey:"item_id"})
     
-    await sequelize.sync({force:mode==="test"?true:false});
+    await sequelize.sync();
 
     console.log("connected to db")
 }

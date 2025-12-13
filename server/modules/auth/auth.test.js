@@ -1,23 +1,25 @@
 import request, { agent } from "supertest"
 import { app } from "../../app.js";
-import { modelsInit } from "../../config/models.init.js";
 import { UserModel } from "../user/user.model.js";
 import sequelize from "../../config/sequelize.config.js";
+import { setupTestDB } from "../../common/test/setupTestDB.js";
+
 
 
 describe("auth tests register,login,logout", () => {
     let agent
     beforeAll(async () => {
-        await modelsInit("test")
-    })
+    await setupTestDB();
+   
+});
+
+afterAll(async () => {
+    await sequelize.close();
+});
+
     beforeEach(() => {
         agent = request.agent(app)
     })
-
-    afterAll(async () => {
-        1
-        await sequelize.close();
-    });
     test("should create user", async () => {
         const response = await agent.post('/api/auth/register').send({
             full_name: "John Doe",

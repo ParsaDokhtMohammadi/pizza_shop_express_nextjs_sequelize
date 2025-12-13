@@ -7,7 +7,8 @@ export const addToCartController = async(req , res,next) =>{
     try{
         const {item_id , quantity} = req.body
         if(!item_id || !quantity) throw createHttpError(400,"فیلد های مورد نیاز ارسال نشده اند")
-        const token = req.signedCookies.planetPizza
+        if(typeof(+quantity)!=="number"||quantity<=0)throw createHttpError(400,"مقدار نامعتر میباشد")
+            const token = req.signedCookies.planetPizza
         const verified = verifyToken(token)
         if(!verified)throw createHttpError(401,"منقضی شده لطفا دوباره وارد شوید")
         const user_id = verified.id
