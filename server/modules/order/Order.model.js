@@ -9,7 +9,7 @@ export const orderModel = sequelize.define("Order",{
         model:"User",
         key:"id"
     }},
-    status:{type:DataTypes.ENUM(...orderStatusEnum.values),defaultValue:orderStatusEnum.PENDING},
+    status:{type:DataTypes.ENUM(...Object.values(orderStatusEnum)),defaultValue:orderStatusEnum.PENDING},
     address:{type:DataTypes.TEXT},
     order_type:{type:DataTypes.ENUM("pickUp","delivery"),allowNull:false},
     discount_code:{type:DataTypes.STRING,references:{
