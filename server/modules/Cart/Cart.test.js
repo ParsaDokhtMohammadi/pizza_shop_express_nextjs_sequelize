@@ -70,4 +70,16 @@ describe("cart tests add/delete", () => {
         expect(res.type).toBe("application/json");
         expect(res.body.message).toBe("فیلد های مورد نیاز ارسال نشده اند")
     })
+    test("should say unauthorized",async()=>{
+        const res = await agent.get("/api/cart/u2")
+        expect(res.status).toBe(401)
+        expect(res.type).toBe("application/json")
+        expect(res.body.message).toBe("دسترسی ندارید")
+    })
+    test("should get users cart",async()=>{
+        const res = await agent.get("/api/cart/u1")
+        expect(res.status).toBe(200)
+        expect(res.type).toBe("application/json")
+        expect(res.body.message).toBe("سبد خرید دریافت شد")
+    })
 })
