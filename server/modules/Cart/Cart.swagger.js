@@ -119,3 +119,54 @@
  *             example:
  *               message: internal server error
  */
+
+/**
+ * @swagger
+ * /api/cart/{id}:
+ *   get:
+ *     summary: Get all items in the user's cart (Needs login)
+ *     tags: [Cart]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: User ID
+ *     responses:
+ *       200:
+ *         description: List of cart items
+ *         content:
+ *           application/json:
+ *             example:
+ *               - id: c1
+ *                 quantity: 2
+ *                 Item:
+ *                   id: i1
+ *                   name: Pizza
+ *                   price: 120
+ *               - id: c2
+ *                 quantity: 1
+ *                 Item:
+ *                   id: i3
+ *                   name: Coke
+ *                   price: 25
+ *       400:
+ *         description: User ID not sent
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: ایدی ارسال نشده است
+ *       401:
+ *         description: Unauthorized access
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: دسترسی ندارید
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: internal server error
+ */
