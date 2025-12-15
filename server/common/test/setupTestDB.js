@@ -5,6 +5,7 @@ import { itemModel } from "../../modules/item/item.model.js";
 import { cartModel } from "../../modules/Cart/Cart.model.js";
 import { orderModel } from "../../modules/order/order.model.js";
 import { discountModel } from "../../modules/discount/discount.model.js";
+import { paymentModel } from "../../modules/payment/payment.model.js";
 
 export async function setupTestDB() {
   try {
@@ -22,6 +23,9 @@ export async function setupTestDB() {
     discountModel.hasMany(orderModel, { foreignKey: "discount_code" })
     orderModel.belongsTo(discountModel, { foreignKey: "discount_code" })
 
+    orderModel.hasOne(paymentModel, { foreignKey: "order_id" })
+    paymentModel.belongsTo(orderModel, { foreignKey: "order_id" })
+
     await sequelize.authenticate();
     await sequelize.sync({ force: true });
 
@@ -30,7 +34,8 @@ export async function setupTestDB() {
     await itemModel.destroy({ where: {} })
     await discountModel.destroy({ where: {} })
     await orderModel.destroy({ where: {} })
-    
+    await paymentModel.destroy({where:{}})
+
 
     await UserModel.bulkCreate([
       {
