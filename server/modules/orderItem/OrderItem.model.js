@@ -7,13 +7,17 @@ export const OrderItem = sequelize.define("OrderItem", {
         type: DataTypes.STRING, allowNull: false, references: {
             model: "Order",
             key: "id"
-        }
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
     },
     item_id: {
         type: DataTypes.STRING, allowNull: false, references: {
             model: "Item",
             key: "id"
-        }
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
     },
     quantity: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 1 }
 }, {
