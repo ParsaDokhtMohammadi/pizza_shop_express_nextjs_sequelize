@@ -24,9 +24,18 @@ export const MakeOrder = async (req, res, next) => {
         })
         if (!cartItems.length) throw createHttpError(400, "سبد خرید خالی است")
         //discount handler
-
+        let discountPercentage = 0
+        if(discount){
+            const exists = await discountModel.findOne({where :{code:discount},raw:true})
+            if(!exists) throw createHttpError(404,"کد تخفیف یافت نشد")    
+            if(exists.limit<=0)throw createHttpError(400,"ظرفیت کد تخفیف تمام شده است")
+            if(new Date()>new Date(exists.expiration_date)) throw createHttpError(400,"کد تخفیف منقضی شده است")
+            discountPercentage = exists.percentage
+            }
         const total_amount = cartItems.reduce(
-            (sum, c) => sum + c.quantity * c.Item.price, 0)
+            (sum, c) => sum + c.quantity * c.Item.price * ((100-discountPercentage)/100), 0)
+        console.log(total_amount);
+        
         const order = await orderModel.create({
             id: nanoid(6),
             user_id,
