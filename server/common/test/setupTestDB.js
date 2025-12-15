@@ -23,7 +23,7 @@ export async function setupTestDB() {
     discountModel.hasMany(orderModel, { foreignKey: "discount_code" })
     orderModel.belongsTo(discountModel, { foreignKey: "discount_code" })
 
-    orderModel.hasOne(paymentModel, { foreignKey: "order_id" })
+    orderModel.hasMany(paymentModel, { foreignKey: "order_id" })
     paymentModel.belongsTo(orderModel, { foreignKey: "order_id" })
 
     await sequelize.authenticate();
