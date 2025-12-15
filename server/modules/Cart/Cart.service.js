@@ -2,7 +2,7 @@ import createHttpError from "http-errors";
 import { verifyToken } from "../../common/utils/auth.utils.js";
 import { cartModel } from "./Cart.model.js";
 import { nanoid } from "nanoid";
-import { itemModel } from "../item/item.model.js";
+import { itemModel } from "../item/Item.model.js";
 
 export const addToCartController = async (req, res, next) => {
     try {
