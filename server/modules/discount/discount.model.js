@@ -3,8 +3,8 @@ import { DataTypes } from "sequelize"
 
 export const discountModel = sequelize.define("Discount",{
         id:{type:DataTypes.STRING,primaryKey:true,allowNull:false},
-        name:{type:DataTypes.STRING,allowNull:false},
-        code:{type:DataTypes.STRING,allowNull:false},
+        name:{type:DataTypes.STRING,allowNull:false,unique:true},
+        code:{type:DataTypes.STRING,allowNull:false,unique:true},
         percentage:{type:DataTypes.STRING,allowNull:false},
         limit:{type:DataTypes.INTEGER,allowNull:false,defaultValue:20},
         start_date:{type:DataTypes.DATE,allowNull:false,defaultValue:new Date(Date.now())},

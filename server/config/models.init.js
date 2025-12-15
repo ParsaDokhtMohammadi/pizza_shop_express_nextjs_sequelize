@@ -1,3 +1,4 @@
+import sequelize from "./sequelize.config.js";
 import { cartModel } from "../modules/Cart/Cart.model.js";
 import { discountModel } from "../modules/discount/Discount.model.js";
 import { itemModel } from "../modules/item/Item.model.js";
@@ -5,7 +6,7 @@ import { orderModel } from "../modules/order/order.model.js";
 import { OrderItem } from "../modules/orderItem/OrderItem.model.js";
 import { paymentModel } from "../modules/payment/payment.model.js";
 import { UserModel } from "../modules/user/user.model.js";
-import sequelize from "./sequelize.config.js";
+import {userDiscountModel} from "../modules/userDiscount/userDiscount.model.js"
 
 export async function modelsInit() {
     await sequelize.authenticate()
@@ -31,6 +32,12 @@ export async function modelsInit() {
 
     itemModel.hasMany(OrderItem,{foreignKey:"item_id",onDelete:"CASCADE",onUpdate:"CASCADE"}),
     OrderItem.belongsTo(itemModel,{foreignKey:"item_id"})
+
+    UserModel.hasMany(userDiscountModel,{foreignKey:"user_id",onDelete:"CASCADE",onUpdate:"CASCADE"})
+    userDiscountModel.belongsTo(UserModel,{foreignKey:"user_id"})
+    
+    discountModel.hasMany(userDiscountModel,{foreignKey:"discount_id",onDelete:"CASCADE",onUpdate:"CASCADE"})
+    userDiscountModel.belongsTo(discountModel,{foreignKey:"discount_id"})
 
     await sequelize.sync();
 
