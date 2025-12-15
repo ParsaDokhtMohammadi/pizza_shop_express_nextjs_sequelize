@@ -4,7 +4,7 @@ import { cartModel } from "../Cart/Cart.model.js"
 import { verifyToken } from "../../common/utils/auth.utils.js"
 import { itemModel } from "../item/Item.model.js"
 import { discountModel } from "../discount/Discount.model.js"
-import {OrderItem} from "../orderItem/OrderItem.model.js"
+import { OrderItem } from "../orderItem/OrderItem.model.js"
 import { nanoid } from "nanoid"
 
 export const MakeOrder = async (req, res, next) => {
@@ -25,36 +25,36 @@ export const MakeOrder = async (req, res, next) => {
         if (!cartItems.length) throw createHttpError(400, "سبد خرید خالی است")
         //discount handler
         let discountPercentage = 0
-        if(discount){
-            const exists = await discountModel.findOne({where :{code:discount},raw:true})
-            if(!exists) throw createHttpError(404,"کد تخفیف یافت نشد")    
-            if(exists.limit<=0)throw createHttpError(400,"ظرفیت کد تخفیف تمام شده است")
-            if(new Date()>new Date(exists.expiration_date)) throw createHttpError(400,"کد تخفیف منقضی شده است")
+        if (discount) {
+            const exists = await discountModel.findOne({ where: { code: discount }, raw: true })
+            if (!exists) throw createHttpError(404, "کد تخفیف یافت نشد")
+            if (exists.limit <= 0) throw createHttpError(400, "ظرفیت کد تخفیف تمام شده است")
+            if (new Date(exists.expiration_date) <= new Date()) throw createHttpError(400, "کد تخفیف منقضی شده است")
             discountPercentage = exists.percentage
-            }
+        }
         const total_amount = cartItems.reduce(
-            (sum, c) => sum + c.quantity * c.Item.price * ((100-discountPercentage)/100), 0)
+            (sum, c) => sum + c.quantity * c.Item.price * ((100 - discountPercentage) / 100), 0)
         console.log(total_amount);
-        
+
         const order = await orderModel.create({
             id: nanoid(6),
             user_id,
-            amount:total_amount,
-            order_type:type,
+            amount: total_amount,
+            order_type: type,
             address,
             discount,
         })
         await OrderItem.bulkCreate(
             cartItems.map(c => ({
-                id:nanoid(6),
+                id: nanoid(6),
                 order_id: order.id,
                 item_id: c.item_id,
                 quantity: c.quantity,
                 price_at_purchase: c.Item.price
             }))
         )
-        await cartModel.destroy({where:{user_id}})
-        res.status(200).json({message:"سفارش ایجاد شد",order_id:order.id,total_amount})
+        await cartModel.destroy({ where: { user_id } })
+        res.status(200).json({ message: "سفارش ایجاد شد", order_id: order.id, total_amount })
 
     } catch (err) {
         next(err)

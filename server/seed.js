@@ -130,8 +130,10 @@ export async function seed() {
                 id:nanoid(6),
                 name: "test2",
                 code:"testDiscount2",
-                limit:10000,
+                limit:100,
                 percentage:1,
+                start_date:new Date("2024-01-01 00:00:00"),
+                expiration_date:new Date("2024-01-02 00:00:00")
             },
             {
                 id:nanoid(6),
