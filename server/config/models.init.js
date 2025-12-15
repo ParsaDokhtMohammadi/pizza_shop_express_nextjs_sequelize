@@ -2,6 +2,7 @@ import { cartModel } from "../modules/Cart/Cart.model.js";
 import { discountModel } from "../modules/discount/discount.model.js";
 import { itemModel } from "../modules/item/item.model.js";
 import { orderModel } from "../modules/order/order.model.js";
+import { OrderItem } from "../modules/orderItem/OrderItem.model.js";
 import { paymentModel } from "../modules/payment/payment.model.js";
 import { UserModel } from "../modules/user/user.model.js";
 import sequelize from "./sequelize.config.js";
@@ -25,6 +26,11 @@ export async function modelsInit() {
     orderModel.hasMany(paymentModel,{foreignKey:"order_id"})
     paymentModel.belongsTo(orderModel,{foreignKey:"order_id"})
 
+    orderModel.hasMany(OrderItem,{foreignKey:"order_id"})
+    OrderItem.belongsTo(orderModel,{foreignKey:"order_id"})
+
+    itemModel.hasMany(OrderItem,{foreignKey:"item_id"}),
+    OrderItem.belongsTo(itemModel,{foreignKey:"item_id"})
 
     await sequelize.sync();
 
