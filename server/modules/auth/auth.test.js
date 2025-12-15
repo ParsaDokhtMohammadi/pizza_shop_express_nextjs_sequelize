@@ -1,15 +1,15 @@
-import request, { agent } from "supertest"
+import request from "supertest"
 import { app } from "../../app.js";
 import { UserModel } from "../user/user.model.js";
 import sequelize from "../../config/sequelize.config.js";
-import { setupTestDB } from "../../common/test/setupTestDB.js";
+import { seed } from "../../seed.js";
 
 
 
 describe("auth tests register,login,logout", () => {
     let agent
     beforeAll(async () => {
-    await setupTestDB();
+    await seed()
    
 });
 

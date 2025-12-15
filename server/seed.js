@@ -1,11 +1,49 @@
+import { nanoid } from "nanoid";
 import sequelize from "./config/sequelize.config.js";
 import { cartModel } from "./modules/Cart/Cart.model.js";
-import { itemModel } from "./modules/item/item.model.js";
-import {UserModel} from "./modules/user/user.model.js"
+import { discountModel } from "./modules/discount/Discount.model.js";
+import { itemModel } from "./modules/item/Item.model.js";
+import { orderModel } from "./modules/order/order.model.js";
+import { OrderItem } from "./modules/orderItem/OrderItem.model.js";
+import { paymentModel } from "./modules/payment/payment.model.js";
+import { UserModel } from "./modules/user/user.model.js"
 export async function seed() {
     try {
         console.log("🔄 Syncing database...");
+        UserModel.hasMany(cartModel, { foreignKey: "user_id",onDelete:"CASCADE",onUpdate:"CASCADE" });
+        cartModel.belongsTo(UserModel, { foreignKey: "user_id" });
+
+        itemModel.hasMany(cartModel, { foreignKey: "item_id" ,onDelete:"CASCADE",onUpdate:"CASCADE"});
+        cartModel.belongsTo(itemModel, { foreignKey: "item_id" });
+
+        UserModel.hasMany(orderModel, { foreignKey: "user_id" ,onDelete:"CASCADE",onUpdate:"CASCADE"})
+        orderModel.belongsTo(UserModel, { foreignKey: "user_id" })
+
+
+        discountModel.hasMany(orderModel, { foreignKey: "discount_code" ,onDelete:"CASCADE",onUpdate:"CASCADE"})
+        orderModel.belongsTo(discountModel, { foreignKey: "discount_code" })
+
+        orderModel.hasMany(paymentModel, { foreignKey: "order_id" ,onDelete:"CASCADE",onUpdate:"CASCADE"})
+        paymentModel.belongsTo(orderModel, { foreignKey: "order_id" })
+
+
+        orderModel.hasMany(OrderItem, { foreignKey: "order_id" ,onDelete:"CASCADE",onUpdate:"CASCADE"})
+        OrderItem.belongsTo(orderModel, { foreignKey: "order_id" })
+
+        itemModel.hasMany(OrderItem, { foreignKey: "item_id" ,onDelete:"CASCADE",onUpdate:"CASCADE"}),
+        OrderItem.belongsTo(itemModel, { foreignKey: "item_id" })
+
+
+        await sequelize.authenticate();
         await sequelize.sync({ force: true });
+
+        await cartModel.destroy({ where: {} })
+        await UserModel.destroy({ where: {} })
+        await itemModel.destroy({ where: {} })
+        await discountModel.destroy({ where: {} })
+        await orderModel.destroy({ where: {} })
+        await paymentModel.destroy({ where: {} })
+        await OrderItem.destroy({ where: {} })
 
         console.log("🌱 Seeding users...");
         await UserModel.bulkCreate([
@@ -36,7 +74,7 @@ export async function seed() {
                 name: "Margherita Pizza",
                 category: "Pizza",
                 description: "Classic pizza with tomato sauce and mozzarella.",
-                price:300000,
+                price: 300000,
                 image_url: "/images/margherita.jpg"
             },
             {
@@ -44,7 +82,7 @@ export async function seed() {
                 name: "Pepperoni Pizza",
                 category: "Pizza",
                 description: "Pepperoni, cheese, and tomato sauce.",
-                price:380000,
+                price: 380000,
                 image_url: "/images/pepperoni.jpg"
             },
             {
@@ -52,7 +90,7 @@ export async function seed() {
                 name: "Garlic Bread",
                 category: "side",
                 description: "Toasted garlic bread with herbs.",
-                price:200000,
+                price: 200000,
                 image_url: "/images/garlicbread.jpg"
             },
             {
@@ -60,7 +98,7 @@ export async function seed() {
                 name: "Coca Cola",
                 category: "drink",
                 description: "Cold refreshing cola drink.",
-                price:50000,
+                price: 50000,
                 image_url: "/images/coke.jpg"
             }
         ]);
@@ -80,13 +118,33 @@ export async function seed() {
                 quantity: 1
             }
         ]);
+        await discountModel.bulkCreate([
+            {
+                id:nanoid(6),
+                name: "test",
+                code:"testDiscount",
+                limit:20,
+                percentage:10,
+            },
+            {
+                id:nanoid(6),
+                name: "test2",
+                code:"testDiscount2",
+                limit:10000,
+                percentage:1,
+            },
+            {
+                id:nanoid(6),
+                name: "yalda 1404",
+                code:"yalda404",
+                limit:10,
+                percentage:30,
+            },
+        ])
 
         console.log("🎉 Seeding completed successfully!");
-        process.exit(0);
-
     } catch (err) {
         console.error("❌ Seed error:", err);
-        process.exit(1);
     }
 }
 

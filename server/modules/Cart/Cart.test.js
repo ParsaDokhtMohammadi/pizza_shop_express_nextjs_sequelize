@@ -1,7 +1,7 @@
 import request from "supertest"
 import { app } from "../../app"
 import sequelize from "../../config/sequelize.config.js";
-import { setupTestDB } from "../../common/test/setupTestDB.js";
+import { seed } from "../../seed.js";
 
 
 
@@ -10,7 +10,7 @@ describe("cart tests add/delete", () => {
 
 
     beforeAll(async () => {
-        await setupTestDB();
+        await seed();
         agent = request.agent(app);
         const loginRes = await agent
             .post("/api/auth/login")
