@@ -6,6 +6,7 @@ import { itemModel } from "../item/Item.model.js"
 import { discountModel } from "../discount/Discount.model.js"
 import { OrderItem } from "../orderItem/OrderItem.model.js"
 import { nanoid } from "nanoid"
+import { where } from "sequelize"
 
 export const MakeOrder = async (req, res, next) => {
     try {
@@ -42,7 +43,7 @@ export const MakeOrder = async (req, res, next) => {
             amount: total_amount,
             order_type: type,
             address,
-            discount,
+            discount_code:discount,
         })
         await OrderItem.bulkCreate(
             cartItems.map(c => ({
@@ -57,6 +58,61 @@ export const MakeOrder = async (req, res, next) => {
         res.status(200).json({ message: "سفارش ایجاد شد", order_id: order.id, total_amount })
 
     } catch (err) {
+        next(err)
+    }
+}
+export const getOrders = async(req , res , next) =>{
+    try{
+        const cookie = req.signedCookies.planetPizza
+        const { id: user_id } = verifyToken(cookie)
+        const orders =await OrderItem.findAll({
+            include:[
+                {
+                    model:orderModel,
+                    foreignKey:"order_id",
+                    where:{user_id}
+                },
+                {
+                    model:itemModel,
+                    foreignKey:"item_id"
+                },
+                
+            ],
+            attributes:{exclude:["order_id","item_id"]}
+            ,raw:true
+            ,nest:true
+        })
+        res.status(200).json({message:"سفارشات دریافت شد",data:orders})
+    }catch(err){
+        next(err)
+    }
+}
+export const getOrderById = async(req , res , next) =>{
+    try{
+        const {order_id} = req.params
+        if(!order_id)throw createHttpError(400,"درخواست نامعتبر")
+        const cookie = req.signedCookies.planetPizza
+        const { id: user_id } = verifyToken(cookie)
+        const order =await OrderItem.findAll({
+            include:[
+                {
+                    model:orderModel,
+                    foreignKey:"order_id",
+                    where:{user_id,id:order_id}
+                },
+                {
+                    model:itemModel,
+                    foreignKey:"item_id"
+                },
+                
+            ],
+            attributes:{exclude:["order_id","item_id"]}
+            ,raw:true
+            ,nest:true
+        })
+        if(order.length===0)throw createHttpError(404,"سفارش موردنظر یافت نشد")
+        res.status(200).json({message:"سفارش دریافت شد",data:order})
+    }catch(err){
         next(err)
     }
 }
