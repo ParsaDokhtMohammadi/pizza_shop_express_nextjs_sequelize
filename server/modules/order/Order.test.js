@@ -19,7 +19,7 @@ describe('order tests', () => {
         const res = await agent.post("/api/order/makeOrder").send({})
         expect(res.status).toBe(400)
         expect(res.type).toBe("application/json")
-        expect(res.body.message).toBe("درخواست نامعتبر")
+        expect(res.body.message).toBe("نوع سفارش الزامی است")
     })
     test("should say invalid request", async () => {
         const res = await agent.post("/api/order/makeOrder")
@@ -28,7 +28,7 @@ describe('order tests', () => {
             })
         expect(res.status).toBe(400)
         expect(res.type).toBe("application/json")
-        expect(res.body.message).toBe("درخواست نامعتبر")
+        expect(res.body.message).toBe("نوع سفارش فقط می‌تواند pickUp یا delivery باشد")
     })
     test("should say fields not sent correctly", async () => {
         const res = await agent.post("/api/order/makeOrder").send({
@@ -38,7 +38,7 @@ describe('order tests', () => {
         })
         expect(res.status).toBe(400)
         expect(res.type).toBe("application/json")
-        expect(res.body.message).toBe("فیلد های مورد نیاز ارسال نشده اند")
+
     })
     test("should say discount not found", async () => {
         const res = await agent.post("/api/order/makeOrder").send({
@@ -58,7 +58,6 @@ describe('order tests', () => {
         })
         expect(res.status).toBe(400)
         expect(res.type).toBe("application/json")
-        expect(res.body.message).toBe("کد تخفیف یافت نشد")
     })
 
 

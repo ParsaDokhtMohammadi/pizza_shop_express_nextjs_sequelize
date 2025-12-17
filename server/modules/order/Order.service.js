@@ -6,7 +6,7 @@ import { itemModel } from "../item/Item.model.js"
 import { discountModel } from "../discount/Discount.model.js"
 import { OrderItem } from "../orderItem/OrderItem.model.js"
 import { nanoid } from "nanoid"
-import { where } from "sequelize"
+
 
 export const MakeOrder = async (req, res, next) => {
     try {
@@ -27,12 +27,14 @@ export const MakeOrder = async (req, res, next) => {
         if (!cartItems.length) throw createHttpError(400, "سبد خرید خالی است")
         //discount handler
         let discountPercentage = 0
+        let discountId = null
         if (discount) {
             const exists = await discountModel.findOne({ where: { code: discount }, raw: true })
             if (!exists) throw createHttpError(404, "کد تخفیف یافت نشد")
             if (exists.limit <= 0) throw createHttpError(400, "ظرفیت کد تخفیف تمام شده است")
             if (new Date(exists.expiration_date) <= new Date()) throw createHttpError(400, "کد تخفیف منقضی شده است")
             discountPercentage = exists.percentage
+            discountId = exists.id
         }
         const total_amount = cartItems.reduce(
             (sum, c) => sum + c.quantity * c.Item.price * ((100 - discountPercentage) / 100), 0)
@@ -43,8 +45,9 @@ export const MakeOrder = async (req, res, next) => {
             user_id,
             amount: total_amount,
             order_type: type,
+            phone_number,
             address,
-            discount_code:discount,
+            discount_id:discountId,
         })
         await OrderItem.bulkCreate(
             cartItems.map(c => ({

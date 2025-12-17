@@ -21,8 +21,8 @@ export async function modelsInit() {
     orderModel.belongsTo(UserModel, { foreignKey: "user_id" })
 
 
-    discountModel.hasMany(orderModel, { foreignKey: "discount_code" ,onDelete:"CASCADE",onUpdate:"CASCADE"})
-    orderModel.belongsTo(discountModel, { foreignKey: "discount_code" })
+    discountModel.hasMany(orderModel, { foreignKey: "discount_id" ,onDelete:"CASCADE",onUpdate:"CASCADE"})
+    orderModel.belongsTo(discountModel, { foreignKey: "discount_id" })
 
     orderModel.hasMany(paymentModel,{foreignKey:"order_id",onDelete:"CASCADE",onUpdate:"CASCADE"})
     paymentModel.belongsTo(orderModel,{foreignKey:"order_id"})

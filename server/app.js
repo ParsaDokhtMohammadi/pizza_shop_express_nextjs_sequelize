@@ -7,7 +7,7 @@ import { specs } from "./config/swagger.config.js";
 import swaggerUi from "swagger-ui-express";
 import cors from "cors"
 import { CartRouter } from "./modules/Cart/Cart.routes.js";
-import { OrderRouter } from "./modules/order/order.routes.js";
+import { OrderRouter } from "./modules/order/Order.routes.js";
 config()
 
 const app = express();

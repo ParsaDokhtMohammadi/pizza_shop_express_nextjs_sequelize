@@ -16,7 +16,7 @@ export const orderModel = sequelize.define("Order", {
     phone_number:{type:DataTypes.STRING,allowNull:false},
     amount: { type: DataTypes.STRING, allowNull: false },
     order_type: { type: DataTypes.ENUM("pickUp", "delivery"), allowNull: false },
-    discount_code: {
+    discount_id: {
         type: DataTypes.STRING, references: {
             model: "Discount",
             key: "id"
