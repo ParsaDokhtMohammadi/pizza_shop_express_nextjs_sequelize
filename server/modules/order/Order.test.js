@@ -16,13 +16,13 @@ describe('order tests', () => {
         await sequelize.close()
     })
     test("should say invalid request", async () => {
-        const res = await agent.post("/api/order/makeOrder").send({})
+        const res = await agent.post("/api/order").send({})
         expect(res.status).toBe(400)
         expect(res.type).toBe("application/json")
         expect(res.body.message).toBe("نوع سفارش الزامی است")
     })
     test("should say invalid request", async () => {
-        const res = await agent.post("/api/order/makeOrder")
+        const res = await agent.post("/api/order")
             .send({
                 type: "notPickUp"
             })
@@ -31,7 +31,7 @@ describe('order tests', () => {
         expect(res.body.message).toBe("نوع سفارش فقط می‌تواند pickUp یا delivery باشد")
     })
     test("should say fields not sent correctly", async () => {
-        const res = await agent.post("/api/order/makeOrder").send({
+        const res = await agent.post("/api/order").send({
             type: "delivery",
             discount: "test",
             phone_number: "09110000000"
@@ -41,7 +41,7 @@ describe('order tests', () => {
 
     })
     test("should say  mobile is required", async () => {
-        const res = await agent.post("/api/order/makeOrder").send({
+        const res = await agent.post("/api/order").send({
             type: "delivery",
             discount: "test",
             phone_number: ""
@@ -52,7 +52,7 @@ describe('order tests', () => {
 
     })
     test("should say fields mobile is not valid", async () => {
-        const res = await agent.post("/api/order/makeOrder").send({
+        const res = await agent.post("/api/order").send({
             type: "delivery",
             discount: "test",
             phone_number: "0911"
@@ -63,7 +63,7 @@ describe('order tests', () => {
 
     })
     test("should say discount not found", async () => {
-        const res = await agent.post("/api/order/makeOrder").send({
+        const res = await agent.post("/api/order").send({
             type: "pickUp",
             discount: "noDiscount",
             phone_number: "09110000000"
@@ -73,7 +73,7 @@ describe('order tests', () => {
         expect(res.body.message).toBe("کد تخفیف یافت نشد")
     })
     test("should say discount expired", async () => {
-        const res = await agent.post("/api/order/makeOrder").send({
+        const res = await agent.post("/api/order").send({
             type: "pickUp",
             discount: "testDiscount2",
             phone_number: "09110000000"
@@ -89,7 +89,7 @@ describe('order tests', () => {
         expect(res.body.message).toBe("سفارش موردنظر یافت نشد")
     })
     test("should make order", async () => {
-        const res = await agent.post("/api/order/makeOrder").send({
+        const res = await agent.post("/api/order").send({
             type: "delivery",
             address: "کوچه علی چپ",
             discount: "testDiscount",

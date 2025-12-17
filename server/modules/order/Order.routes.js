@@ -5,7 +5,7 @@ import { validate } from "express-validation"
 import { orderSchema } from "./order.validation.js"
 const OrderRouter = Router()
 
-OrderRouter.post("/makeOrder",validate(orderSchema),checkLogin,MakeOrder)
+OrderRouter.post("",validate(orderSchema),checkLogin,MakeOrder)
 OrderRouter.get("",checkLogin,getOrders)
 OrderRouter.get("/:order_id",checkLogin,getOrderById)
 
