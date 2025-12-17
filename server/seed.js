@@ -128,5 +128,5 @@ export async function seed() {
         console.error("❌ Seed error:", err);
     }
 }
-seed()
+
 
