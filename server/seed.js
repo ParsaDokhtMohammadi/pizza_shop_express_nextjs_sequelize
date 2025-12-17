@@ -40,14 +40,6 @@ export async function seed() {
         await sequelize.authenticate();
         await sequelize.sync({ force: true });
 
-        await cartModel.destroy({ where: {} })
-        await UserModel.destroy({ where: {} })
-        await itemModel.destroy({ where: {} })
-        await discountModel.destroy({ where: {} })
-        await orderModel.destroy({ where: {} })
-        await paymentModel.destroy({ where: {} })
-        await OrderItem.destroy({ where: {} })
-        await userDiscountModel.destroy({ where: {} })
 
         console.log("🌱 Seeding users...");
         await UserModel.bulkCreate([
@@ -154,4 +146,3 @@ export async function seed() {
     }
 }
 
-seed();

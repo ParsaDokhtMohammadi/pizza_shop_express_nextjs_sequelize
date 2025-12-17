@@ -13,6 +13,7 @@ export const orderModel = sequelize.define("Order", {
     },
     status: { type: DataTypes.ENUM(...Object.values(orderStatusEnum)), defaultValue: orderStatusEnum.PENDING },
     address: { type: DataTypes.TEXT },
+    phone_number:{type:DataTypes.STRING,allowNull:false},
     amount: { type: DataTypes.STRING, allowNull: false },
     order_type: { type: DataTypes.ENUM("pickUp", "delivery"), allowNull: false },
     discount_code: {

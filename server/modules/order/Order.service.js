@@ -10,10 +10,11 @@ import { where } from "sequelize"
 
 export const MakeOrder = async (req, res, next) => {
     try {
-        const { type, address, discount } = req.body
+        const { type, address, discount , phone_number } = req.body
 
 
         if (type !== "pickUp" && type !== "delivery") throw createHttpError(400, "درخواست نامعتبر")
+        if (!phone_number) throw createHttpError(400, "فیلد های مورد نیاز ارسال نشده اند")
         if (type === "delivery" && !address) throw createHttpError(400, "فیلد های مورد نیاز ارسال نشده اند")
         const cookie = req.signedCookies.planetPizza
         const { id: user_id } = verifyToken(cookie)
