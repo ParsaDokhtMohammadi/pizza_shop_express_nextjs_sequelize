@@ -8,6 +8,7 @@ import swaggerUi from "swagger-ui-express";
 import cors from "cors"
 import { CartRouter } from "./modules/Cart/Cart.routes.js";
 import { OrderRouter } from "./modules/order/Order.routes.js";
+import { ItemRouter } from "./modules/item/Item.routes.js";
 config()
 
 const app = express();
@@ -31,6 +32,7 @@ app.get("/",(req, res)=>{
 app.use("/api/auth",AuthRouter);
 app.use("/api/cart",CartRouter)
 app.use("/api/order",OrderRouter)
+app.use("/api/product",ItemRouter)
 
 
 
