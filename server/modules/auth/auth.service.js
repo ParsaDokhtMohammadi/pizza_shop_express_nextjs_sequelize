@@ -27,7 +27,7 @@ export const loginController = async (req , res , next)=>{
         if(!user) throw createHttpError(400, "invalid email or password");
         const isPasswordValid = verifyPassword(password , user.password)
         if(!isPasswordValid) throw createHttpError(400, "invalid email or password");
-        const token = generateToken({id : user.id , email : user.email})
+        const token = generateToken({id : user.id , email : user.email , role:user.role})
         res.cookie("planetPizza",token,{
             maxage : 24 * 60 * 60 * 1000,
             httpOnly : true,
