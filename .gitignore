@@ -13,4 +13,4 @@ build/
 client/.env
 server/.env
 
-public/uploads
+server/public/uploads
