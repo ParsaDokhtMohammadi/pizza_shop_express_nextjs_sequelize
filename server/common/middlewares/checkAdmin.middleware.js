@@ -9,6 +9,7 @@ export const checkAdmin = (req,res,next)=>{
         if(verify.role!=="admin")throw createHttpError(401,"شما به این بخش دسترسی ندارید")
         next()
     }catch(err){
-        next(err)
+        res.clearCookie("planetPizza")
+        next(createHttpError(401, "وارد اکانت خود شوید"));
     }
 }
