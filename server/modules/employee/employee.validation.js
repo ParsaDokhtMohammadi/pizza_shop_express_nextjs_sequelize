@@ -37,5 +37,5 @@ export const EmployeeSchema = {
         "any.required": "شماره تماس الزامی است",
         "string.pattern.base": "شماره تماس معتبر نیست"
       })
-  })
+  }).unknown(true)
 };

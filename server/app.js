@@ -10,6 +10,7 @@ import { CartRouter } from "./modules/Cart/Cart.routes.js";
 import { OrderRouter } from "./modules/order/Order.routes.js";
 import { ItemRouter } from "./modules/item/Item.routes.js";
 import { DiscountRouter } from "./modules/discount/Discount.routes.js";
+import { EmployeeRouter } from "./modules/employee/employee.routes.js";
 config()
 
 const app = express();
@@ -36,7 +37,7 @@ app.use("/api/cart",CartRouter)
 app.use("/api/order",OrderRouter)
 app.use("/api/product",ItemRouter)
 app.use("/api/discount",DiscountRouter)
-
+app.use("/api/employee",EmployeeRouter)
 
 
 
