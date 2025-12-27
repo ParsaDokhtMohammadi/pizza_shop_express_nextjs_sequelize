@@ -3,6 +3,7 @@ import { discountModel } from "./Discount.model.js"
 import createHttpError from "http-errors"
 
 
+
 export const AddDiscount = async (req, res, next) => {
     try {
         const { name, code, percentage, limit, start_date, expiration_date } = req.body
@@ -44,11 +45,11 @@ export const deleteDiscount = async (req, res, next) => {
     try {
         const { id } = req.params;
 
-        if (!id)throw createHttpError(400, "درخواست نامعتبر");
+        if (!id) throw createHttpError(400, "درخواست نامعتبر");
 
 
-        const deletedCount = await discountModel.destroy({where: { id }});
-        if (deletedCount === 0)throw createHttpError(404, "کد تخفیف یافت نشد");
+        const deletedCount = await discountModel.destroy({ where: { id } });
+        if (deletedCount === 0) throw createHttpError(404, "کد تخفیف یافت نشد");
         res.status(200).json({
             message: "کد تخفیف با موفقیت حذف شد"
         });
@@ -56,3 +57,22 @@ export const deleteDiscount = async (req, res, next) => {
         next(err);
     }
 };
+export const checkDiscountCode = async (req, res, next) => {
+    try {
+        const { code } = req.params
+        if (!code) throw createHttpError(400, "کد تخفیف ارسال نشده است")
+        const exists = await discountModel.findOne({
+            where: {
+                code: code,
+            }
+        })
+        if (!exists) throw createHttpError(404, "کد تخفیف یافت نشد")
+        if (exists.limit <= 0) throw createHttpError(400, "ظرفیت کد تخفیف تمام شده است")
+        if (new Date(exists.expiration_date) <= new Date())
+            throw createHttpError(400, "کد تخفیف منقضی شده است")
+
+        res.status(200).json({ message: "کد تخفیف معتبر است" })
+    } catch (err) {
+        next(err)
+    }
+}

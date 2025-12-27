@@ -6,7 +6,7 @@ import { itemModel } from "../item/Item.model.js"
 import { discountModel } from "../discount/Discount.model.js"
 import { OrderItem } from "../orderItem/OrderItem.model.js"
 import { nanoid } from "nanoid"
-import { Op } from "sequelize"
+
 
 
 export const MakeOrder = async (req, res, next) => {
@@ -33,11 +33,11 @@ export const MakeOrder = async (req, res, next) => {
             const exists = await discountModel.findOne({
                 where: {
                     code: discount,
-                    limit: { [Op.gt]: 0 }
                 }
             })
 
             if (!exists) throw createHttpError(404, "کد تخفیف یافت نشد")
+            if(exists.limit<=0)throw createHttpError(400,"ظرفیت کد تخفیف تمام شده است")
             if (new Date(exists.expiration_date) <= new Date())
                 throw createHttpError(400, "کد تخفیف منقضی شده است")
 
