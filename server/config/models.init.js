@@ -4,7 +4,7 @@ import { discountModel } from "../modules/discount/Discount.model.js";
 import { itemModel } from "../modules/item/Item.model.js";
 import { orderModel } from "../modules/order/order.model.js";
 import { OrderItem } from "../modules/orderItem/OrderItem.model.js";
-import { paymentModel } from "../modules/payment/payment.model.js";
+
 import { UserModel } from "../modules/user/user.model.js";
 import {userDiscountModel} from "../modules/userDiscount/userDiscount.model.js"
 
@@ -24,8 +24,7 @@ export async function modelsInit() {
     discountModel.hasMany(orderModel, { foreignKey: "discount_id" ,onDelete:"CASCADE",onUpdate:"CASCADE"})
     orderModel.belongsTo(discountModel, { foreignKey: "discount_id" })
 
-    orderModel.hasMany(paymentModel,{foreignKey:"order_id",onDelete:"CASCADE",onUpdate:"CASCADE"})
-    paymentModel.belongsTo(orderModel,{foreignKey:"order_id"})
+
 
     orderModel.hasMany(OrderItem,{foreignKey:"order_id",onDelete:"CASCADE",onUpdate:"CASCADE"})
     OrderItem.belongsTo(orderModel,{foreignKey:"order_id"})
