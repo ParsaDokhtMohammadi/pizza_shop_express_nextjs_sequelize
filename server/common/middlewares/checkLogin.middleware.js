@@ -11,6 +11,6 @@ export const checkLogin = (req, res, next) => {
         next();
     } catch (err) {
         res.clearCookie("planetPizza")
-        next(createHttpError(401, "وارد حساب کاربری خود شوید"));
+        next(err);
     }
 };
