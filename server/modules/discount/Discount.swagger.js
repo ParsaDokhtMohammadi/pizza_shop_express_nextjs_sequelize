@@ -151,3 +151,50 @@
  *             example:
  *               message: لطفا وارد شوید
  */
+/**
+ * @swagger
+ * /api/discount/{code}:
+ *   get:
+ *     summary: Check if a discount code is valid
+ *     tags: [Discount]
+ *     parameters:
+ *       - in: path
+ *         name: code
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Discount code to validate
+ *     responses:
+ *       200:
+ *         description: Discount code is valid
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: کد تخفیف معتبر است
+ *       400:
+ *         description: Invalid or expired discount
+ *         content:
+ *           application/json:
+ *             examples:
+ *               expired:
+ *                 value:
+ *                   message: کد تخفیف منقضی شده است
+ *               limit:
+ *                 value:
+ *                   message: ظرفیت کد تخفیف تمام شده است
+ *               missing:
+ *                 value:
+ *                   message: کد تخفیف ارسال نشده است
+ *       404:
+ *         description: Discount code not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: کد تخفیف یافت نشد
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: internal server error
+ */
