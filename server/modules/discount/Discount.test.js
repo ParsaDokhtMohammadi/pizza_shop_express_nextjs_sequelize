@@ -89,4 +89,14 @@ describe("Discount tests", () => {
         expect(res.status).toBe(200);
         expect(res.body.message).toBe("کد تخفیف با موفقیت حذف شد");
     });
+    test("should say discount not found",async()=>{
+        const res = await agent.get("/api/discount/notValidCode")
+        expect(res.status).toBe(404)
+         expect(res.body.message).toBe("کد تخفیف یافت نشد");
+    })
+    test("should check that code is valid",async()=>{
+        const res = await agent.get("/api/discount/yalda404")
+        expect(res.status).toBe(200)
+         expect(res.body.message).toBe("کد تخفیف معتبر است");
+    })
 });
